@@ -36,7 +36,7 @@ public class InterfazSesion extends JFrame {
 	public InterfazSesion(final Instituto institutoSeleccionado, final Grupo grupoSeleccionado, final Modulo moduloSeleccionado, final int unidadSeleccionada) {
 		setTitle("Sesion");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 730, 300);
+		setBounds(100, 100, 730, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -52,17 +52,8 @@ public class InterfazSesion extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(10, 233, 89, 23);
+		btnAtras.setBounds(10, 188, 89, 23);
 		contentPane.add(btnAtras);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(-1);
-			}
-		});
-		btnExit.setBounds(623, 233, 89, 23);
-		contentPane.add(btnExit);
 		
 		modelo = new DefaultTableModel(matrizDatos, nombreColumnas);
 		
@@ -82,7 +73,7 @@ public class InterfazSesion extends JFrame {
 				añadirSesion.setVisible(true);
 			}
 		});
-		btnAdd.setBounds(503, 188, 89, 23);
+		btnAdd.setBounds(524, 188, 89, 23);
 		contentPane.add(btnAdd);
 		
 		InterfazSesion.institutoSeleccionado = institutoSeleccionado;

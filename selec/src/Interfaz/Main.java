@@ -1,5 +1,7 @@
 package Interfaz;
 
+import java.awt.EventQueue;
+
 import BaseDeDatos.BaseDeDatos;
 
 public class Main {
@@ -7,11 +9,17 @@ public class Main {
 	public static BaseDeDatos bd;
 	
 	public static void main(String[] args) {
-		
-		bd = new BaseDeDatos();
-		BaseDeDatos.actualizarContador();
-		InterfazInstituto frame = new InterfazInstituto();
-		frame.setVisible(true);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					bd = new BaseDeDatos();
+					Menu menu = new Menu();
+					menu.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

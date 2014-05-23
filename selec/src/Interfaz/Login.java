@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import BaseDeDatos.BaseDeDatos;
 import Clases.Usuario;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -24,25 +23,11 @@ public class Login extends JFrame {
 	private JTextField txtUser;
 	private JPasswordField passF;
 	
-	private Usuario user;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BaseDeDatos bd = new BaseDeDatos();
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public static Usuario user;
 	
 	public Login() {
 		setTitle("Login");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,33 +64,24 @@ public class Login extends JFrame {
 				if(!usuario.equals("") && !password.equals("")){
 					user = new Usuario(usuario, password);
 					if(BaseDeDatos.login(usuario, password)){
-						JOptionPane.showMessageDialog(contentPane, "Correcto");
+						Menu.actualizarEstado();
+						dispose();
 					}
 					else
 						JOptionPane.showMessageDialog(contentPane, "Usuario y/o contraseña incorrectos");
 				}
 			}
 		});
-		btnLogin.setBounds(174, 190, 89, 23);
+		btnLogin.setBounds(176, 196, 89, 23);
 		contentPane.add(btnLogin);
 		
-		JButton btnRegistro = new JButton("Registro");
-		btnRegistro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Registro iRegistro = new Registro();
-				iRegistro.setVisible(true);
-			}
-		});
-		btnRegistro.setBounds(327, 190, 89, 23);
-		contentPane.add(btnRegistro);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
+		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(-1);
+				dispose();
 			}
 		});
-		btnExit.setBounds(327, 224, 89, 23);
-		contentPane.add(btnExit);
+		btnAtras.setBounds(10, 233, 89, 23);
+		contentPane.add(btnAtras);
 	}
 }

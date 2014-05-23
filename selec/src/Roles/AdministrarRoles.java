@@ -1,7 +1,5 @@
 package Roles;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -35,20 +33,6 @@ public class AdministrarRoles extends JFrame {
 	private JComboBox<Rol> cbRoles;
 	private JComboBox<Usuario> cbUsuarios;
 	private JButton btnAplicar;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BaseDeDatos bd = new BaseDeDatos();
-					AdministrarRoles frame = new AdministrarRoles();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public AdministrarRoles() {
 		setTitle("Administrar Roles");

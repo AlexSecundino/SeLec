@@ -21,6 +21,7 @@ public class BaseDeDatos {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:mysql://localhost/seguimientolectivo","root","admin");
+			connection.setAutoCommit(true);
 		}
 		catch (SQLException e){
 			JOptionPane.showMessageDialog(null, "No se ha podido establecer la conexion", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1168,5 +1169,11 @@ public class BaseDeDatos {
 			}
 		}
 		return correcto;
+	}
+	
+	public static void exit(){
+		try {
+			connection.close();
+		} catch (SQLException e) {}
 	}
 }

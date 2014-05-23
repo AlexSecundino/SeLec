@@ -23,7 +23,6 @@ import Clases.Grupo;
 import Clases.Instituto;
 import Clases.Modulo;
 import Clases.Sesion;
-import Clases.Usuario;
 
 import javax.swing.JComboBox;
 
@@ -51,8 +50,8 @@ public class iAñadirSesion extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNumeroSesion = new JLabel("Numero sesion:");
-		lblNumeroSesion.setBounds(10, 11, 103, 14);
+		JLabel lblNumeroSesion = new JLabel("N\u00BA Sesion:");
+		lblNumeroSesion.setBounds(10, 11, 61, 14);
 		contentPane.add(lblNumeroSesion);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
@@ -60,19 +59,19 @@ public class iAñadirSesion extends JFrame {
 		contentPane.add(lblFecha);
 		
 		JLabel lblDia = new JLabel("Dia:");
-		lblDia.setBounds(300, 11, 35, 14);
+		lblDia.setBounds(331, 11, 35, 14);
 		contentPane.add(lblDia);
 		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(31, 45, 35, 14);
+		lblTipo.setBounds(10, 45, 35, 14);
 		contentPane.add(lblTipo);
 		
 		JLabel lblDuracion = new JLabel("Duracion:");
-		lblDuracion.setBounds(188, 45, 61, 14);
+		lblDuracion.setBounds(178, 45, 61, 14);
 		contentPane.add(lblDuracion);
 		
 		JLabel lblComentarios = new JLabel("Comentarios:");
-		lblComentarios.setBounds(10, 98, 89, 14);
+		lblComentarios.setBounds(10, 119, 89, 14);
 		contentPane.add(lblComentarios);
 		
 		JButton btnAtras = new JButton("Atras");
@@ -81,7 +80,7 @@ public class iAñadirSesion extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(55, 196, 89, 23);
+		btnAtras.setBounds(31, 181, 89, 23);
 		contentPane.add(btnAtras);
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -105,8 +104,7 @@ public class iAñadirSesion extends JFrame {
 										tipo,
 										duracion,
 										comentarios);
-						/*OJO*/Usuario usuario = new Usuario("root", "a", "a");
-						if(BaseDeDatos.insertarSesion(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, unidadSeleccionada, usuario, sesion))
+						if(BaseDeDatos.insertarSesion(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, unidadSeleccionada, Login.user, sesion))
 						{
 							JOptionPane.showMessageDialog(contentPane, "Se ha insertado correctamente");
 							while(InterfazSesion.modelo.getRowCount() > 0){
@@ -121,21 +119,21 @@ public class iAñadirSesion extends JFrame {
 				}
 			}
 		});
-		btnGuardar.setBounds(266, 196, 89, 23);
+		btnGuardar.setBounds(306, 181, 89, 23);
 		contentPane.add(btnGuardar);
 		
 		txtNSesion = new JTextField();
-		txtNSesion.setBounds(107, 8, 61, 20);
+		txtNSesion.setBounds(76, 8, 92, 20);
 		contentPane.add(txtNSesion);
 		txtNSesion.setColumns(10);
 		
 		txtDate = new JTextField();
-		txtDate.setBounds(225, 8, 61, 20);
+		txtDate.setBounds(243, 8, 78, 20);
 		contentPane.add(txtDate);
 		txtDate.setColumns(10);
 		
 		txtDuracion = new JTextField();
-		txtDuracion.setBounds(269, 42, 86, 20);
+		txtDuracion.setBounds(243, 42, 78, 20);
 		contentPane.add(txtDuracion);
 		txtDuracion.setColumns(10);
 		
@@ -151,7 +149,7 @@ public class iAñadirSesion extends JFrame {
 		contentPane.add(comboBoxTipo);
 		
 		comboBoxDia = new JComboBox<String>();
-		comboBoxDia.setBounds(339, 8, 56, 20);
+		comboBoxDia.setBounds(376, 8, 56, 20);
 		contentPane.add(comboBoxDia);
 		
 		addListadoDias();

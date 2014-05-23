@@ -34,7 +34,7 @@ public class InterfazModulo extends JFrame {
 	public InterfazModulo(final Instituto institutoSeleccionado, final Grupo grupoSeleccionado) {
 		setTitle("Modulo");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 425, 170);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,6 +53,7 @@ public class InterfazModulo extends JFrame {
 					Modulo moduloSeleccionado = (Modulo) comboBox.getSelectedItem();
 					InterfazTemario iTemario = new InterfazTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado);
 					iTemario.setVisible(true);
+					dispose();
 				}
 			}
 		});
@@ -94,7 +95,7 @@ public class InterfazModulo extends JFrame {
 				}
 			}
 		});
-		btnAdd.setBounds(312, 91, 89, 23);
+		btnAdd.setBounds(10, 85, 89, 23);
 		contentPane.add(btnAdd);
 		
 		btnBorrar = new JButton("Borrar");
@@ -110,17 +111,8 @@ public class InterfazModulo extends JFrame {
 				}
 			}
 		});
-		btnBorrar.setBounds(312, 139, 89, 23);
+		btnBorrar.setBounds(160, 85, 89, 23);
 		contentPane.add(btnBorrar);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(-1);
-			}
-		});
-		btnExit.setBounds(312, 199, 89, 23);
-		contentPane.add(btnExit);
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
@@ -128,7 +120,7 @@ public class InterfazModulo extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(25, 199, 89, 23);
+		btnAtras.setBounds(312, 85, 89, 23);
 		contentPane.add(btnAtras);
 		
 		this.grupoSeleccionado = grupoSeleccionado;

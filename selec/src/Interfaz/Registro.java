@@ -28,6 +28,7 @@ public class Registro extends JFrame {
 	private String password;
 
 	public Registro() {
+		setTitle("Registro");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -72,12 +73,14 @@ public class Registro extends JFrame {
 				if(!usuario.equals("") && !nombre.equals("") && !password.equals(""))
 				{
 					Usuario user = new Usuario(usuario, nombre, password);
-					if(BaseDeDatos.registrar(user))
+					if(BaseDeDatos.registrar(user)){
 						JOptionPane.showMessageDialog(contentPane, "Registro realizado con éxito");
+						dispose();
+					}
 				}
 			}
 		});
-		btnRegistrarse.setBounds(174, 214, 89, 23);
+		btnRegistrarse.setBounds(222, 214, 120, 23);
 		contentPane.add(btnRegistrarse);
 		
 		JButton btnAtras = new JButton("Atras");
@@ -88,14 +91,5 @@ public class Registro extends JFrame {
 		});
 		btnAtras.setBounds(10, 214, 89, 23);
 		contentPane.add(btnAtras);
-		
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(-1);
-			}
-		});
-		btnSalir.setBounds(320, 214, 89, 23);
-		contentPane.add(btnSalir);
 	}
 }

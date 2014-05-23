@@ -24,7 +24,7 @@ public class InterfazInstituto extends JFrame {
 	private JButton btnSeleccionar;
 	private JButton btnAdd;
 	private JButton btnBorrar;
-	private JButton btnExit;
+	private JButton btnAtras;
 	
 	private JComboBox<Instituto> comboBox;
 
@@ -32,15 +32,15 @@ public class InterfazInstituto extends JFrame {
 	
 	public InterfazInstituto() {
 		setTitle("Instituto");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 410, 200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		comboBox = new JComboBox<Instituto>();
-		comboBox.setBounds(47, 53, 212, 20);
+		comboBox.setBounds(42, 53, 212, 20);
 		contentPane.add(comboBox);
 		
 		btnSeleccionar = new JButton("Seleccionar");
@@ -52,6 +52,7 @@ public class InterfazInstituto extends JFrame {
 					Instituto institutoSeleccionado = (Instituto) comboBox.getSelectedItem();
 					InterfazGrupo iGrupo = new InterfazGrupo(institutoSeleccionado);
 					iGrupo.setVisible(true);
+					dispose();
 				}
 			}
 		});
@@ -64,7 +65,7 @@ public class InterfazInstituto extends JFrame {
 				añadirInstituto();
 			}
 		});
-		btnAdd.setBounds(297, 86, 89, 20);
+		btnAdd.setBounds(42, 118, 89, 20);
 		contentPane.add(btnAdd);
 		
 		btnBorrar = new JButton("Borrar");
@@ -80,17 +81,17 @@ public class InterfazInstituto extends JFrame {
 				}
 			}
 		});
-		btnBorrar.setBounds(297, 117, 89, 23);
+		btnBorrar.setBounds(162, 117, 89, 23);
 		contentPane.add(btnBorrar);
 		
-		btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
+		btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(-1);
+				dispose();
 			}
 		});
-		btnExit.setBounds(297, 151, 89, 23);
-		contentPane.add(btnExit);
+		btnAtras.setBounds(297, 117, 89, 23);
+		contentPane.add(btnAtras);
 		
 		addListado();
 	}

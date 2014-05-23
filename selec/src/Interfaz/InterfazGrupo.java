@@ -31,14 +31,14 @@ public class InterfazGrupo extends JFrame {
 	public InterfazGrupo(final Instituto institutoSeleccionado) {
 		setTitle("Grupo");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 410, 140);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		comboBox = new JComboBox<Grupo>();
-		comboBox.setBounds(35, 56, 211, 20);
+		comboBox.setBounds(35, 30, 211, 20);
 		contentPane.add(comboBox);
 		
 		btnSeleccionar = new JButton("Seleccionar");
@@ -50,20 +50,12 @@ public class InterfazGrupo extends JFrame {
 					Grupo grupoSeleccionado = (Grupo) comboBox.getSelectedItem();
 					InterfazModulo iModulo = new InterfazModulo(institutoSeleccionado, grupoSeleccionado);
 					iModulo.setVisible(true);
+					dispose();
 				}
 			}
 		});
-		btnSeleccionar.setBounds(291, 55, 89, 23);
+		btnSeleccionar.setBounds(291, 29, 89, 23);
 		contentPane.add(btnSeleccionar);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(-1);
-			}
-		});
-		btnExit.setBounds(291, 211, 89, 23);
-		contentPane.add(btnExit);
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
@@ -71,7 +63,7 @@ public class InterfazGrupo extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(31, 211, 89, 23);
+		btnAtras.setBounds(291, 63, 89, 23);
 		contentPane.add(btnAtras);
 		
 		btnAdd = new JButton("A\u00F1adir");
@@ -104,7 +96,7 @@ public class InterfazGrupo extends JFrame {
 				}
 			}
 		});
-		btnAdd.setBounds(291, 101, 89, 23);
+		btnAdd.setBounds(35, 63, 89, 23);
 		contentPane.add(btnAdd);
 		
 		btnBorrar = new JButton("Borrar");
@@ -120,7 +112,7 @@ public class InterfazGrupo extends JFrame {
 				}
 			}
 		});
-		btnBorrar.setBounds(291, 148, 89, 23);
+		btnBorrar.setBounds(156, 63, 89, 23);
 		contentPane.add(btnBorrar);
 		
 		this.institutoSeleccionado = institutoSeleccionado;

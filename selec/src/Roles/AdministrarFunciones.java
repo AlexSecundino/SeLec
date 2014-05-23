@@ -1,7 +1,5 @@
 package Roles;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -36,23 +34,9 @@ public class AdministrarFunciones extends JFrame {
 	public static BaseDeDatos bd = null;
 	private JButton btnAtras;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					bd = new BaseDeDatos();
-					AdministrarFunciones frame = new AdministrarFunciones();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public AdministrarFunciones() {
 		setTitle("Administrar Funciones");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,6 +95,11 @@ public class AdministrarFunciones extends JFrame {
 		contentPane.add(cbUsuarios);
 		
 		btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnAtras.setBounds(343, 233, 89, 23);
 		contentPane.add(btnAtras);
 		

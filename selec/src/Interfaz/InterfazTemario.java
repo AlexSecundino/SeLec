@@ -38,7 +38,7 @@ public class InterfazTemario extends JFrame {
 	public InterfazTemario(final Instituto institutoSeleccionado, final Grupo grupoSeleccionado, final Modulo moduloSeleccionado) {
 		setTitle("Estad\u00EDsticas");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1000, 300);
+		setBounds(100, 100, 1000, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -50,17 +50,8 @@ public class InterfazTemario extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(10, 233, 89, 23);
+		btnAtras.setBounds(10, 187, 89, 23);
 		contentPane.add(btnAtras);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(-1);
-			}
-		});
-		btnExit.setBounds(893, 233, 89, 23);
-		contentPane.add(btnExit);
 		
 		JButton btnAdd = new JButton("A\u00F1adir");
 		btnAdd.addActionListener(new ActionListener() {
@@ -163,7 +154,7 @@ public class InterfazTemario extends JFrame {
 				}
 			}
 		});
-		btnCrearSesion.setBounds(444, 187, 133, 23);
+		btnCrearSesion.setBounds(651, 187, 133, 23);
 		contentPane.add(btnCrearSesion);
 		this.institutoSeleccionado = institutoSeleccionado;
 		this.grupoSeleccionado = grupoSeleccionado;
