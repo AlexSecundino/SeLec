@@ -16,6 +16,10 @@ public class Actividad {
 		this.subTipoClase = subTipoClase;
 		this.comentarios = comentarios;
 	}
+	
+	public Actividad(int numActividad) {
+		this.numActividad = numActividad;
+	}
 
 	public int getNumActividad() {
 		return numActividad;

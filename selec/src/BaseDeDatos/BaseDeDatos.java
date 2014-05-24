@@ -979,6 +979,34 @@ public class BaseDeDatos {
 		return correct;
 	}
 
+	public static boolean eliminarSesion(Sesion sesion)
+	{
+		boolean correcto = true;
+		String sql = "delete from sesion where numSesion = ? AND fecha = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			Date f = new Date(sesion.getFecha().getTime());
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, sesion.getNumSesion());
+			ps.setDate(2, f);
+			ps.executeUpdate();
+		} 
+		catch (SQLException e) {
+			correcto = false;
+			JOptionPane.showMessageDialog(null, "No se ha podido borrar la sesion", "Error", 3);
+		}
+		finally{
+			if(ps != null){
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+			}
+		}
+		return correcto;
+	}
+	
 	private static int numeroFilasSesion(Instituto institutoSeleccionado, Grupo grupoSeleccionado, Modulo moduloSeleccionado, int unidad) {
 		int nFilas = 0;
 		
@@ -1223,6 +1251,35 @@ public class BaseDeDatos {
 		return correct;
 	}
 	
+	public static boolean eliminarActividad(Sesion sesion, Actividad actividad)
+	{
+		boolean correcto = true;
+		String sql = "delete from actividad where numSesion = ? AND fecha = ? AND numActividad = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			Date f = new Date(sesion.getFecha().getTime());
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, sesion.getNumSesion());
+			ps.setDate(2, f);
+			ps.setInt(3, actividad.getNumActividad());
+			ps.executeUpdate();
+		} 
+		catch (SQLException e) {
+			correcto = false;
+			JOptionPane.showMessageDialog(null, "No se ha podido borrar la actividad", "Error", 3);
+		}
+		finally{
+			if(ps != null){
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+			}
+		}
+		return correcto;
+	}
+	
 	private static int numeroFilasActividad(Sesion sesion) {
 
 		int nFilas = 0;
@@ -1255,6 +1312,41 @@ public class BaseDeDatos {
 				} catch (SQLException e) {}
 		}
 		return nFilas;
+	}
+	
+	public static boolean existeActividad(Sesion sesion, Actividad actividad) {
+		boolean existe = false;
+		String sql = "SELECT count(*) from actividad where numSesion = ? AND fecha = ? AND numActividad = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+			
+			try {
+				Date f = new Date(sesion.getFecha().getTime());
+				ps = connection.prepareStatement(sql);
+				ps.setInt(1, sesion.getNumSesion());
+				ps.setDate(2, f);
+				ps.setInt(3, actividad.getNumActividad());
+				rs = ps.executeQuery();
+				
+				if(rs.next())
+				{
+					if (rs.getInt(1) > 0)
+						existe =  true;
+					
+				}
+			}
+			catch (SQLException e) {}
+			finally{
+				if (rs != null)
+					try {
+						rs.close();
+					} catch (SQLException e) {}
+				if (ps != null)
+					try {
+						ps.close();
+					} catch (SQLException e) {}
+			}
+		return existe;
 	}
 	
 	public static ArrayList<String> consultarTipoClase()

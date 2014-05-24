@@ -6,11 +6,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import BaseDeDatos.BaseDeDatos;
+import Clases.Actividad;
 import Clases.Sesion;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -71,6 +74,33 @@ public class InterfazActividad extends JFrame {
 		contentPane.add(btnAdd);
 		
 		btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nActividad = JOptionPane.showInputDialog(contentPane, "Seleccione el numero de actividad", "Borrar actividad", JOptionPane.QUESTION_MESSAGE);
+				
+				if(nActividad != null){
+					if(nActividad.matches("[0-9]+")){
+						int numActividad = Integer.valueOf(nActividad);
+						Actividad actividad = new Actividad(numActividad);
+						if(BaseDeDatos.existeActividad(sesion, actividad))
+						{	
+								if(BaseDeDatos.eliminarActividad(sesion, actividad)){
+									while(InterfazActividad.modelo.getRowCount() > 0){
+										InterfazActividad.modelo.removeRow(0);
+									}
+									InterfazActividad.addListado();
+									JOptionPane.showMessageDialog(contentPane, "La actividad se ha eliminado correctamente");
+								}
+						}
+						else{
+							JOptionPane.showMessageDialog(contentPane, "La actividad seleccionada no existe");
+						}
+					}
+					else
+						JOptionPane.showMessageDialog(contentPane, "El numero de actividad debe de ser un numero mayor que 0 y menor que: " + Integer.MAX_VALUE);
+				}
+			}
+		});
 		btnBorrar.setBounds(593, 170, 89, 23);
 		contentPane.add(btnBorrar);
 		

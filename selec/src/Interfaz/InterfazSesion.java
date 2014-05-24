@@ -68,6 +68,46 @@ public class InterfazSesion extends JFrame {
 		table.setEnabled(false);
 		
 		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nSesion = JOptionPane.showInputDialog(contentPane, "Seleccione el numSesion", "Borrar sesion", JOptionPane.QUESTION_MESSAGE);
+				
+				if(nSesion != null){
+					if(nSesion.matches("[0-9]+")){
+						int numSesion = Integer.valueOf(nSesion);
+						String fecha = JOptionPane.showInputDialog(contentPane, "Seleccione la fecha", "Borrar sesion", JOptionPane.QUESTION_MESSAGE);
+						if(fecha != null){
+							if(fecha.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")){
+								SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+								Date f = null;
+								try {
+									f = sdf.parse(fecha);
+									Sesion sesion = new Sesion(numSesion, f);
+									if(BaseDeDatos.existeSesion(sesion))
+									{	
+										if(BaseDeDatos.eliminarSesion(sesion)){
+											while(InterfazSesion.modelo.getRowCount() > 0){
+												InterfazSesion.modelo.removeRow(0);
+											}
+											InterfazSesion.addListado();
+											JOptionPane.showMessageDialog(contentPane, "La sesion se ha eliminado correctamente");
+										}
+									}
+									else{
+										JOptionPane.showMessageDialog(contentPane, "La sesion seleccionada no existe");
+									}
+								} catch (ParseException e1) {
+									JOptionPane.showMessageDialog(contentPane, "La fecha debe seguir el formato dd/mm/aaaa");
+								}
+							}
+							else{
+								JOptionPane.showMessageDialog(contentPane, "La fecha debe seguir el formato dd/mm/aaaa");
+							}
+						}
+					}
+				}
+			}
+		});
 		btnBorrar.setBounds(623, 188, 89, 23);
 		contentPane.add(btnBorrar);
 		
@@ -97,7 +137,6 @@ public class InterfazSesion extends JFrame {
 								try {
 									f = sdf.parse(fecha);
 									Sesion sesion = new Sesion(numSesion, f);
-									System.out.println(f);
 									if(BaseDeDatos.existeSesion(sesion))
 									{	
 										InterfazActividad iActividad = new InterfazActividad(sesion);
