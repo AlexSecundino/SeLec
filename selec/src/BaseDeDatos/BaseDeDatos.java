@@ -1532,6 +1532,31 @@ public class BaseDeDatos {
 		}
 		return correcto;
 	}
+
+	public static boolean actualizarAcumuladas() {
+		boolean correcto = true;
+		
+		String sql = "call acumuladas()";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.executeUpdate();
+		} 
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al actualizar las acumuladas.", "Error", 3);
+			correcto = false;
+		}
+		finally{
+			if(ps != null){
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+			}
+		}
+		return correcto;
+	}
 	
 	public static void exit(){
 		try {

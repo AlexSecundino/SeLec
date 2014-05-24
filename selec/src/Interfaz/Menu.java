@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import BaseDeDatos.BaseDeDatos;
 import Roles.AdministrarFunciones;
@@ -13,6 +14,7 @@ import Roles.AdministrarRoles;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextField;
 
 public class Menu extends JFrame {
@@ -25,6 +27,8 @@ public class Menu extends JFrame {
 	private static JMenu mnAdministrar;
 	private static JMenu mnVer;
 	private static JTextField txtWelcome;
+	private static JMenuItem mntmHorasAcumuladas;
+	private static JMenu mnActualizar;
 
 	public Menu() {
 		setTitle("Seguimiento Lectivo");
@@ -36,7 +40,7 @@ public class Menu extends JFrame {
 		contentPane.setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 145, 23);
+		menuBar.setBounds(0, 0, 215, 23);
 		contentPane.add(menuBar);
 		
 		JMenu mnInicio = new JMenu("Inicio");
@@ -111,6 +115,18 @@ public class Menu extends JFrame {
 		});
 		mnVer.add(mntmSesiones);
 		
+		mnActualizar = new JMenu("Actualizar");
+		menuBar.add(mnActualizar);
+		
+		mntmHorasAcumuladas = new JMenuItem("Horas Acumuladas");
+		mntmHorasAcumuladas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(BaseDeDatos.actualizarAcumuladas())
+					JOptionPane.showMessageDialog(contentPane, "Se han actualizado correctamente");
+			}
+		});
+		mnActualizar.add(mntmHorasAcumuladas);
+		
 		txtWelcome = new JTextField();
 		txtWelcome.setBounds(78, 54, 241, 23);
 		contentPane.add(txtWelcome);
@@ -129,6 +145,7 @@ public class Menu extends JFrame {
 			mnAdministrar.setEnabled(false);
 			mntmLogin.setEnabled(true);
 			mnVer.setEnabled(false);
+			mnActualizar.setEnabled(false);
 			txtWelcome.setVisible(false);
 		}
 		else{
@@ -136,6 +153,7 @@ public class Menu extends JFrame {
 			mntmLogout.setEnabled(true);
 			mnAdministrar.setEnabled(true);
 			mnVer.setEnabled(true);
+			mnActualizar.setEnabled(true);
 			txtWelcome.setText("¡Bienvenido " + Login.user.getUsuario() + "!");
 			txtWelcome.setVisible(true);
 		}
@@ -154,5 +172,8 @@ public class Menu extends JFrame {
 	}
 	public JTextField getTxtWelcome() {
 		return txtWelcome;
+	}
+	public JMenuItem getMntmHorasAcumuladas() {
+		return mntmHorasAcumuladas;
 	}
 }
