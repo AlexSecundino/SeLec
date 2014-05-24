@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import Clases.Actividad;
 import Clases.Grupo;
 import Clases.Instituto;
 import Clases.Modulo;
@@ -1188,6 +1189,40 @@ public class BaseDeDatos {
 		return listaActividades;	
 	}
 	
+	public static boolean insertarActividad(Sesion sesion, Actividad actividad)
+	{
+		boolean correct = true;
+		String sql = "INSERT into actividad values(?, ?, ?, ?, ?, ?, ?)";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			Date f = new Date(sesion.getFecha().getTime());
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, sesion.getNumSesion());
+			ps.setDate(2, f);
+			ps.setInt(3, actividad.getNumActividad());
+			ps.setInt(4, actividad.getDuracionMinutos());
+			ps.setInt(5, actividad.getTipoClase());
+			ps.setInt(6, actividad.getSubTipoClase());
+			ps.setString(7, actividad.getComentarios());
+
+			ps.executeUpdate();
+		} 
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "No se ha podido insertar la actividad. Compruebe que no existe.", "Error", 3);
+			correct = false;
+		}
+		finally{
+			if(ps != null){
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+			}
+		}
+		return correct;
+	}
+	
 	private static int numeroFilasActividad(Sesion sesion) {
 
 		int nFilas = 0;
@@ -1220,6 +1255,128 @@ public class BaseDeDatos {
 				} catch (SQLException e) {}
 		}
 		return nFilas;
+	}
+	
+	public static ArrayList<String> consultarTipoClase()
+	{
+		ArrayList<String> listaTipos = new ArrayList<>();
+		String sql = "SELECT descripcion from tipoclase";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				listaTipos.add(rs.getString("descripcion"));
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return listaTipos;
+	}
+	
+	public static int consultarTipoClase(String t)
+	{
+		int tipoClase = 0;
+		String sql = "SELECT tipoClase from tipoclase where descripcion = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, t);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				tipoClase = rs.getInt(1);
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return tipoClase;
+	}
+	
+	public static ArrayList<String> consultarSubtipoClase()
+	{
+		ArrayList<String> listaTipos = new ArrayList<>();
+		String sql = "SELECT descripcion from subtipoclase";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				listaTipos.add(rs.getString("descripcion"));
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return listaTipos;
+	}
+	
+	public static int consultarSubtipoClase(String t)
+	{
+		int subtipoClase = 0;
+		String sql = "SELECT subTipoClase from subtipoclase where descripcion = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, t);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				subtipoClase = rs.getInt(1);
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return subtipoClase;
 	}
 	
 	//Login y registro

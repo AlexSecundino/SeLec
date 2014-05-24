@@ -61,6 +61,12 @@ public class InterfazActividad extends JFrame {
 		contentPane.add(btnAtras);
 		
 		btnAdd = new JButton("A\u00F1adir");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				iAñadirActividad añadirActividad= new iAñadirActividad(sesion);
+				añadirActividad.setVisible(true);
+			}
+		});
 		btnAdd.setBounds(494, 170, 89, 23);
 		contentPane.add(btnAdd);
 		
@@ -73,7 +79,7 @@ public class InterfazActividad extends JFrame {
 		addListado();
 	}
 
-	private static void addListado() {
+	public static void addListado() {
 		listaActividades = BaseDeDatos.consultarActividades(sesion);
 		if(listaActividades.length > 0){
 			for(int i = 0; i < listaActividades.length; i++)

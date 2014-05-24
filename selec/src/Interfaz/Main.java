@@ -9,10 +9,10 @@ public class Main {
 	public static BaseDeDatos bd;
 	
 	public static void main(String[] args) {
+		bd = new BaseDeDatos();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					bd = new BaseDeDatos();
 					Menu menu = new Menu();
 					menu.setVisible(true);
 				} catch (Exception e) {
