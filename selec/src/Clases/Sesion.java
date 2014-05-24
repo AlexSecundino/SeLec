@@ -21,6 +21,11 @@ public class Sesion {
 		this.numeroMinutos = numeroMinutos;
 		this.comentarios = comentarios;
 	}
+	
+	public Sesion(int numSesion, Date fecha) {
+		this.numSesion = numSesion;
+		this.fecha = fecha;
+	}
 
 	public int getNumSesion() {
 		return numSesion;

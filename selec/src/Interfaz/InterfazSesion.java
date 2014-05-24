@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -12,9 +13,13 @@ import BaseDeDatos.BaseDeDatos;
 import Clases.Grupo;
 import Clases.Instituto;
 import Clases.Modulo;
+import Clases.Sesion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class InterfazSesion extends JFrame {
 
@@ -75,6 +80,46 @@ public class InterfazSesion extends JFrame {
 		});
 		btnAdd.setBounds(524, 188, 89, 23);
 		contentPane.add(btnAdd);
+		
+		JButton btnVerActividades = new JButton("Ver actividades");
+		btnVerActividades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nSesion = JOptionPane.showInputDialog(contentPane, "Seleccione el numSesion", "Elegir sesion", JOptionPane.QUESTION_MESSAGE);
+				
+				if(nSesion != null){
+					if(nSesion.matches("[0-9]+")){
+						int numSesion = Integer.valueOf(nSesion);
+						String fecha = JOptionPane.showInputDialog(contentPane, "Seleccione la fecha", "Elegir sesion", JOptionPane.QUESTION_MESSAGE);
+						if(fecha != null){
+							if(fecha.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")){
+								SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+								Date f = null;
+								try {
+									f = sdf.parse(fecha);
+									Sesion sesion = new Sesion(numSesion, f);
+									System.out.println(f);
+									if(BaseDeDatos.existeSesion(sesion))
+									{	
+										InterfazActividad iActividad = new InterfazActividad(sesion);
+										iActividad.setVisible(true);
+									}
+									else{
+										JOptionPane.showMessageDialog(contentPane, "La sesion seleccionada no existe");
+									}
+								} catch (ParseException e1) {
+									JOptionPane.showMessageDialog(contentPane, "La fecha debe seguir el formato dd/mm/aaaa");
+								}
+							}
+							else{
+								JOptionPane.showMessageDialog(contentPane, "La fecha debe seguir el formato dd/mm/aaaa");
+							}
+						}
+					}
+				}
+			}
+		});
+		btnVerActividades.setBounds(391, 188, 123, 23);
+		contentPane.add(btnVerActividades);
 		
 		InterfazSesion.institutoSeleccionado = institutoSeleccionado;
 		InterfazSesion.grupoSeleccionado = grupoSeleccionado;

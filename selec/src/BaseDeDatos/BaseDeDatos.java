@@ -835,7 +835,7 @@ public class BaseDeDatos {
 				if(rs.next())
 				{
 					if (rs.getInt(1) > 0)
-						return true;
+						existe = true;
 					
 				}
 			}
@@ -1012,6 +1012,40 @@ public class BaseDeDatos {
 		}
 		return nFilas;
 	}
+
+	public static boolean existeSesion(Sesion sesion) {
+		boolean existe = false;
+		String sql = "SELECT count(*) from sesion where numSesion = ? AND fecha = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+			
+			try {
+				Date f = new Date(sesion.getFecha().getTime());
+				ps = connection.prepareStatement(sql);
+				ps.setInt(1, sesion.getNumSesion());
+				ps.setDate(2, f);
+				rs = ps.executeQuery();
+				
+				if(rs.next())
+				{
+					if (rs.getInt(1) > 0)
+						existe =  true;
+					
+				}
+			}
+			catch (SQLException e) {}
+			finally{
+				if (rs != null)
+					try {
+						rs.close();
+					} catch (SQLException e) {}
+				if (ps != null)
+					try {
+						ps.close();
+					} catch (SQLException e) {}
+			}
+		return existe;
+	}
 	
 	//Tipo
 	
@@ -1076,7 +1110,6 @@ public class BaseDeDatos {
 		return tipo;
 	}
 	
-	
 	//Dia Semana
 	
 	public static ArrayList<String> consultarDiaSemana()
@@ -1108,9 +1141,89 @@ public class BaseDeDatos {
 		}
 		return listaDias;
 	}
-
-	//Login y registro
 	
+	//Actividades
+
+	public static String[][] consultarActividades(Sesion sesion) {
+		
+		String[][] listaActividades = null;
+		int i = 0;
+		
+		int numeroFilas = BaseDeDatos.numeroFilasActividad(sesion);
+		
+		String sql = "SELECT * from actividad where numSesion = ? AND fecha = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Date f = new Date(sesion.getFecha().getTime());
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, sesion.getNumSesion());
+			ps.setDate(2, f);
+			rs = ps.executeQuery();
+			
+			listaActividades = new String[numeroFilas][5];
+			
+			while(rs.next())
+			{
+				listaActividades[i][0] = rs.getString("numActividad");
+				listaActividades[i][1] = rs.getString("duracionMinutos");
+				listaActividades[i][2] = rs.getString("tipoClase");
+				listaActividades[i][3] = rs.getString("subTipoClase");
+				listaActividades[i][4] = rs.getString("comentarios");
+				i++;
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return listaActividades;	
+	}
+	
+	private static int numeroFilasActividad(Sesion sesion) {
+
+		int nFilas = 0;
+		
+		String sql = "SELECT count(*) from actividad where numSesion = ? AND fecha = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Date f = new Date(sesion.getFecha().getTime());
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, sesion.getNumSesion());
+			ps.setDate(2, f);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				nFilas = rs.getInt(1);
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return nFilas;
+	}
+	
+	//Login y registro
+
 	public static boolean login(String usuario, String password) {
 		boolean correcto = false;
 		
