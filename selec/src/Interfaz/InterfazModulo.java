@@ -63,36 +63,40 @@ public class InterfazModulo extends JFrame {
 		btnAdd = new JButton("A\u00F1adir");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int codigoModulo = 0;
-				String descripcion = null;
-				int totalHoras = 0;
-				String horas = null;
-				
-				String cod = JOptionPane.showInputDialog(contentPane, "Introduce el codigo del modulo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
-				if (cod != null){
-					if(cod.matches("[0-9]+")){
-						codigoModulo = Integer.valueOf(cod);
-						descripcion = JOptionPane.showInputDialog(contentPane, "Introduce la descripcion del grupo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
-				
-						if(descripcion != null){
-							horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del modulo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
-							if(horas != null){
-								if(horas.matches("[0-9]+")){
-										totalHoras = Integer.valueOf(horas);
-										Modulo modulo = new Modulo(codigoModulo, descripcion, totalHoras);
-										BaseDeDatos.insertarModulo(institutoSeleccionado, grupoSeleccionado, modulo);
-										comboBox.removeAllItems();
-										addListado();
-								}
-								else{
-									JOptionPane.showMessageDialog(contentPane, "Las horas del modulo deben ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
+				if(BaseDeDatos.isAutorizado(Login.user, 1)){
+					int codigoModulo = 0;
+					String descripcion = null;
+					int totalHoras = 0;
+					String horas = null;
+					
+					String cod = JOptionPane.showInputDialog(contentPane, "Introduce el codigo del modulo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
+					if (cod != null){
+						if(cod.matches("[0-9]+")){
+							codigoModulo = Integer.valueOf(cod);
+							descripcion = JOptionPane.showInputDialog(contentPane, "Introduce la descripcion del grupo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
+					
+							if(descripcion != null){
+								horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del modulo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
+								if(horas != null){
+									if(horas.matches("[0-9]+")){
+											totalHoras = Integer.valueOf(horas);
+											Modulo modulo = new Modulo(codigoModulo, descripcion, totalHoras);
+											BaseDeDatos.insertarModulo(institutoSeleccionado, grupoSeleccionado, modulo);
+											comboBox.removeAllItems();
+											addListado();
+									}
+									else{
+										JOptionPane.showMessageDialog(contentPane, "Las horas del modulo deben ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
+									}
 								}
 							}
 						}
+						else
+							JOptionPane.showMessageDialog(contentPane, "El codigo del modulo debe ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
 					}
-					else
-						JOptionPane.showMessageDialog(contentPane, "El codigo del modulo debe ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnAdd.setBounds(10, 85, 89, 23);
@@ -101,14 +105,18 @@ public class InterfazModulo extends JFrame {
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(comboBox.getSelectedIndex()< 0)
-					JOptionPane.showMessageDialog(contentPane, "Selecciona un modulo");
-				else{
-					Modulo modulo = (Modulo) comboBox.getSelectedItem();
-					BaseDeDatos.deleteModulo(institutoSeleccionado, grupoSeleccionado, modulo);
-					comboBox.removeAllItems();
-					addListado();
+				if(BaseDeDatos.isAutorizado(Login.user, 3)){
+					if(comboBox.getSelectedIndex()< 0)
+						JOptionPane.showMessageDialog(contentPane, "Selecciona un modulo");
+					else{
+						Modulo modulo = (Modulo) comboBox.getSelectedItem();
+						BaseDeDatos.deleteModulo(institutoSeleccionado, grupoSeleccionado, modulo);
+						comboBox.removeAllItems();
+						addListado();
+					}
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnBorrar.setBounds(160, 85, 89, 23);

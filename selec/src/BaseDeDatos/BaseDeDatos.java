@@ -1558,6 +1558,39 @@ public class BaseDeDatos {
 		return correcto;
 	}
 	
+	public static boolean isAutorizado(Usuario usuario, int codigoFuncion){
+		boolean autorizado = false;
+		String sql = "select isAutorizado(?, ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, usuario.getUsuario());
+			ps.setInt(2, codigoFuncion);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				if(rs.getBoolean(1)){
+					autorizado = true;
+				}
+			}
+		}
+		catch (SQLException e) {}
+		finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {}
+			if (ps != null)
+				try {
+					ps.close();
+				} catch (SQLException e) {}
+		}
+		return autorizado;
+	}
+	
 	public static void exit(){
 		try {
 			connection.close();

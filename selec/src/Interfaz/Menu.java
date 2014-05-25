@@ -79,8 +79,12 @@ public class Menu extends JFrame {
 		JMenuItem mntmUsuarios = new JMenuItem("Usuarios");
 		mntmUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Registro registro = new Registro();
-				registro.setVisible(true);
+				if(BaseDeDatos.isAutorizado(Login.user, 4)){
+					Registro registro = new Registro();
+					registro.setVisible(true);
+				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		mnAdministrar.add(mntmUsuarios);
@@ -88,8 +92,12 @@ public class Menu extends JFrame {
 		JMenuItem mntmFunciones = new JMenuItem("Funciones");
 		mntmFunciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdministrarFunciones iAdministrarFunciones = new AdministrarFunciones();
-				iAdministrarFunciones.setVisible(true);
+				if(BaseDeDatos.isAutorizado(Login.user, 5)){
+					AdministrarFunciones iAdministrarFunciones = new AdministrarFunciones();
+					iAdministrarFunciones.setVisible(true);
+				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		mnAdministrar.add(mntmFunciones);
@@ -97,8 +105,12 @@ public class Menu extends JFrame {
 		JMenuItem mntmRoles = new JMenuItem("Roles");
 		mntmRoles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdministrarRoles iAdministrarRoles = new AdministrarRoles();
-				iAdministrarRoles.setVisible(true);
+				if(BaseDeDatos.isAutorizado(Login.user, 5)){
+					AdministrarRoles iAdministrarRoles = new AdministrarRoles();
+					iAdministrarRoles.setVisible(true);
+				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		mnAdministrar.add(mntmRoles);
@@ -121,8 +133,12 @@ public class Menu extends JFrame {
 		mntmHorasAcumuladas = new JMenuItem("Horas Acumuladas");
 		mntmHorasAcumuladas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(BaseDeDatos.actualizarAcumuladas())
-					JOptionPane.showMessageDialog(contentPane, "Se han actualizado correctamente");
+				if(BaseDeDatos.isAutorizado(Login.user, 2)){
+					if(BaseDeDatos.actualizarAcumuladas())
+						JOptionPane.showMessageDialog(contentPane, "Se han actualizado correctamente");
+				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		mnActualizar.add(mntmHorasAcumuladas);

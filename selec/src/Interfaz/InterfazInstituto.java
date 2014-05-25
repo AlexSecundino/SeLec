@@ -71,14 +71,18 @@ public class InterfazInstituto extends JFrame {
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(comboBox.getSelectedIndex()< 0)
-					JOptionPane.showMessageDialog(contentPane, "Selecciona un instituto");
-				else{
-					Instituto instituto = (Instituto) comboBox.getSelectedItem();
-					BaseDeDatos.deleteInstituto(instituto);
-					comboBox.removeAllItems();
-					addListado();
+				if(BaseDeDatos.isAutorizado(Login.user, 3)){
+					if(comboBox.getSelectedIndex()< 0)
+						JOptionPane.showMessageDialog(contentPane, "Selecciona un instituto");
+					else{
+						Instituto instituto = (Instituto) comboBox.getSelectedItem();
+						BaseDeDatos.deleteInstituto(instituto);
+						comboBox.removeAllItems();
+						addListado();
+					}
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnBorrar.setBounds(162, 117, 89, 23);
@@ -96,17 +100,20 @@ public class InterfazInstituto extends JFrame {
 		addListado();
 	}
 	protected void añadirInstituto() {
-
-		String nombre = JOptionPane.showInputDialog(contentPane, "Introduce el nombre del instituto", "Añadir instituto", JOptionPane.QUESTION_MESSAGE);
+		if(BaseDeDatos.isAutorizado(Login.user, 1)){
+			String nombre = JOptionPane.showInputDialog(contentPane, "Introduce el nombre del instituto", "Añadir instituto", JOptionPane.QUESTION_MESSAGE);
 		
-		if(nombre != null)
-			if(!nombre.equals("")){
-				Instituto instituto = new Instituto(Instituto.getContador() + 1, nombre);
-				BaseDeDatos.insertarInstituto(instituto);
-				Instituto.aumentarContador();
-				comboBox.removeAllItems();
-				addListado();
+			if(nombre != null)
+				if(!nombre.equals("")){
+					Instituto instituto = new Instituto(Instituto.getContador() + 1, nombre);
+					BaseDeDatos.insertarInstituto(instituto);
+					Instituto.aumentarContador();
+					comboBox.removeAllItems();
+					addListado();
+			}
 		}
+		else
+			JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 	}
 	private void addListado() {
 		listaInstitutos = BaseDeDatos.consultarInstitutos();

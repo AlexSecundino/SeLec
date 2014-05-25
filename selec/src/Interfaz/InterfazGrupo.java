@@ -69,31 +69,35 @@ public class InterfazGrupo extends JFrame {
 		btnAdd = new JButton("A\u00F1adir");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int codigoGrupo = 0;
-				String curso = null;
-				String descripcion = null;
-				
-				String cod = JOptionPane.showInputDialog(contentPane, "Introduce el codigo del grupo", "Añadir grupo", JOptionPane.QUESTION_MESSAGE);
-				if (cod != null){
-					if(cod.matches("[0-9]+")){
-						codigoGrupo = Integer.valueOf(cod);
-						curso = JOptionPane.showInputDialog(contentPane, "Introduce el curso del grupo", "Añadir grupo", JOptionPane.QUESTION_MESSAGE);
-				
-						if(curso != null){
-							if(curso.matches("[0-9]{4}/[0-9]{4}")){
-								descripcion = JOptionPane.showInputDialog(contentPane, "Introduce la descripción del grupo", "Añadir grupo", JOptionPane.QUESTION_MESSAGE);
-								Grupo grupo = new Grupo(codigoGrupo, curso, descripcion);
-								BaseDeDatos.insertarGrupo(institutoSeleccionado, grupo);
-								comboBox.removeAllItems();
-								addListado();
+				if(BaseDeDatos.isAutorizado(Login.user, 1)){
+					int codigoGrupo = 0;
+					String curso = null;
+					String descripcion = null;
+					
+					String cod = JOptionPane.showInputDialog(contentPane, "Introduce el codigo del grupo", "Añadir grupo", JOptionPane.QUESTION_MESSAGE);
+					if (cod != null){
+						if(cod.matches("[0-9]+")){
+							codigoGrupo = Integer.valueOf(cod);
+							curso = JOptionPane.showInputDialog(contentPane, "Introduce el curso del grupo", "Añadir grupo", JOptionPane.QUESTION_MESSAGE);
+					
+							if(curso != null){
+								if(curso.matches("[0-9]{4}/[0-9]{4}")){
+									descripcion = JOptionPane.showInputDialog(contentPane, "Introduce la descripción del grupo", "Añadir grupo", JOptionPane.QUESTION_MESSAGE);
+									Grupo grupo = new Grupo(codigoGrupo, curso, descripcion);
+									BaseDeDatos.insertarGrupo(institutoSeleccionado, grupo);
+									comboBox.removeAllItems();
+									addListado();
+								}
+								else
+									JOptionPane.showMessageDialog(contentPane, "El curso debe seguir el formato: yyyy/yyyy");
 							}
-							else
-								JOptionPane.showMessageDialog(contentPane, "El curso debe seguir el formato: yyyy/yyyy");
 						}
+						else
+							JOptionPane.showMessageDialog(contentPane, "El codigo del grupo debe ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
 					}
-					else
-						JOptionPane.showMessageDialog(contentPane, "El codigo del grupo debe ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnAdd.setBounds(35, 63, 89, 23);
@@ -102,14 +106,18 @@ public class InterfazGrupo extends JFrame {
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(comboBox.getSelectedIndex()< 0)
-					JOptionPane.showMessageDialog(contentPane, "Selecciona un grupo");
-				else{
-					Grupo grupo = (Grupo) comboBox.getSelectedItem();
-					BaseDeDatos.deleteGrupo(institutoSeleccionado, grupo);
-					comboBox.removeAllItems();
-					addListado();
+				if(BaseDeDatos.isAutorizado(Login.user, 3)){
+					if(comboBox.getSelectedIndex()< 0)
+						JOptionPane.showMessageDialog(contentPane, "Selecciona un grupo");
+					else{
+						Grupo grupo = (Grupo) comboBox.getSelectedItem();
+						BaseDeDatos.deleteGrupo(institutoSeleccionado, grupo);
+						comboBox.removeAllItems();
+						addListado();
+					}
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnBorrar.setBounds(156, 63, 89, 23);

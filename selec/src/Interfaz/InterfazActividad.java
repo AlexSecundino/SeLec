@@ -37,7 +37,7 @@ public class InterfazActividad extends JFrame {
 	public InterfazActividad(final Sesion sesion) {
 		setTitle("Actividad");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 700, 300);
+		setBounds(100, 100, 700, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -66,8 +66,12 @@ public class InterfazActividad extends JFrame {
 		btnAdd = new JButton("A\u00F1adir");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				iAñadirActividad añadirActividad= new iAñadirActividad(sesion);
-				añadirActividad.setVisible(true);
+				if(BaseDeDatos.isAutorizado(Login.user, 1)){
+					iAñadirActividad añadirActividad= new iAñadirActividad(sesion);
+					añadirActividad.setVisible(true);
+				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnAdd.setBounds(494, 170, 89, 23);
@@ -76,29 +80,33 @@ public class InterfazActividad extends JFrame {
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nActividad = JOptionPane.showInputDialog(contentPane, "Seleccione el numero de actividad", "Borrar actividad", JOptionPane.QUESTION_MESSAGE);
-				
-				if(nActividad != null){
-					if(nActividad.matches("[0-9]+")){
-						int numActividad = Integer.valueOf(nActividad);
-						Actividad actividad = new Actividad(numActividad);
-						if(BaseDeDatos.existeActividad(sesion, actividad))
-						{	
-								if(BaseDeDatos.eliminarActividad(sesion, actividad)){
-									while(InterfazActividad.modelo.getRowCount() > 0){
-										InterfazActividad.modelo.removeRow(0);
+				if(BaseDeDatos.isAutorizado(Login.user, 3)){
+					String nActividad = JOptionPane.showInputDialog(contentPane, "Seleccione el numero de actividad", "Borrar actividad", JOptionPane.QUESTION_MESSAGE);
+					
+					if(nActividad != null){
+						if(nActividad.matches("[0-9]+")){
+							int numActividad = Integer.valueOf(nActividad);
+							Actividad actividad = new Actividad(numActividad);
+							if(BaseDeDatos.existeActividad(sesion, actividad))
+							{	
+									if(BaseDeDatos.eliminarActividad(sesion, actividad)){
+										while(InterfazActividad.modelo.getRowCount() > 0){
+											InterfazActividad.modelo.removeRow(0);
+										}
+										InterfazActividad.addListado();
+										JOptionPane.showMessageDialog(contentPane, "La actividad se ha eliminado correctamente");
 									}
-									InterfazActividad.addListado();
-									JOptionPane.showMessageDialog(contentPane, "La actividad se ha eliminado correctamente");
-								}
+							}
+							else{
+								JOptionPane.showMessageDialog(contentPane, "La actividad seleccionada no existe");
+							}
 						}
-						else{
-							JOptionPane.showMessageDialog(contentPane, "La actividad seleccionada no existe");
-						}
+						else
+							JOptionPane.showMessageDialog(contentPane, "El numero de actividad debe de ser un numero mayor que 0 y menor que: " + Integer.MAX_VALUE);
 					}
-					else
-						JOptionPane.showMessageDialog(contentPane, "El numero de actividad debe de ser un numero mayor que 0 y menor que: " + Integer.MAX_VALUE);
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnBorrar.setBounds(593, 170, 89, 23);

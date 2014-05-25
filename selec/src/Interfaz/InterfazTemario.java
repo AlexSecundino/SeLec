@@ -56,45 +56,49 @@ public class InterfazTemario extends JFrame {
 		JButton btnAdd = new JButton("A\u00F1adir");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int unidad = 0;
-				int evaluacion = 0;
-				int horasPrevistas = 0;
-				
-				String eva = null;
-				String horas = null;
-				
-				String uni = JOptionPane.showInputDialog(contentPane, "Introduce la unidad", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
-				if (uni != null){
-					if(uni.matches("[0-9]+")){
-						unidad = Integer.valueOf(uni);
-						eva = JOptionPane.showInputDialog(contentPane, "Introduce la evaluacion", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
-				
-						if(eva != null){
-							if(eva.matches("[1-3]")){
-								evaluacion = Integer.valueOf(eva);
-								horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del modulo", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
-								if(horas != null){
-									if(horas.matches("[0-9]+")){
-										horasPrevistas = Integer.valueOf(horas);
-										Temario temario = new Temario(unidad, evaluacion, horasPrevistas);
-										BaseDeDatos.insertarTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, temario);
-										while(modelo.getRowCount() > 0)
-											modelo.removeRow(0);
-										addListado();
-									}
-									else{
-										JOptionPane.showMessageDialog(contentPane, "Las horas del tema deben ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
+				if(BaseDeDatos.isAutorizado(Login.user, 1)){
+					int unidad = 0;
+					int evaluacion = 0;
+					int horasPrevistas = 0;
+					
+					String eva = null;
+					String horas = null;
+					
+					String uni = JOptionPane.showInputDialog(contentPane, "Introduce la unidad", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
+					if (uni != null){
+						if(uni.matches("[0-9]+")){
+							unidad = Integer.valueOf(uni);
+							eva = JOptionPane.showInputDialog(contentPane, "Introduce la evaluacion", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
+					
+							if(eva != null){
+								if(eva.matches("[1-3]")){
+									evaluacion = Integer.valueOf(eva);
+									horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del modulo", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
+									if(horas != null){
+										if(horas.matches("[0-9]+")){
+											horasPrevistas = Integer.valueOf(horas);
+											Temario temario = new Temario(unidad, evaluacion, horasPrevistas);
+											BaseDeDatos.insertarTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, temario);
+											while(modelo.getRowCount() > 0)
+												modelo.removeRow(0);
+											addListado();
+										}
+										else{
+											JOptionPane.showMessageDialog(contentPane, "Las horas del tema deben ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
+										}
 									}
 								}
-							}
-							else{
-								JOptionPane.showMessageDialog(contentPane, "La evaluacion debe ser un número comprendido entre [1-3] " + Integer.MAX_VALUE);
+								else{
+									JOptionPane.showMessageDialog(contentPane, "La evaluacion debe ser un número comprendido entre [1-3] " + Integer.MAX_VALUE);
+								}
 							}
 						}
+						else
+							JOptionPane.showMessageDialog(contentPane, "La unidad del tema debe ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
 					}
-					else
-						JOptionPane.showMessageDialog(contentPane, "La unidad del tema debe ser un número mayor que 0 y menor que: " + Integer.MAX_VALUE);
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnAdd.setBounds(794, 187, 89, 23);
@@ -103,21 +107,25 @@ public class InterfazTemario extends JFrame {
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int unidad = 0;
-				String uni = JOptionPane.showInputDialog(contentPane, "Introduce la unidad", "Eliminar tema", JOptionPane.QUESTION_MESSAGE);
-				if(uni != null){
-					unidad = Integer.valueOf(uni);
-					if(BaseDeDatos.existeTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, unidad))
-					{
-						BaseDeDatos.eliminarTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, unidad);
-						while(modelo.getRowCount() > 0)
-							modelo.removeRow(0);
-						addListado();
-					}
-					else{
-						JOptionPane.showMessageDialog(contentPane, "El tema seleccionado no existe");
+				if(BaseDeDatos.isAutorizado(Login.user, 3)){
+					int unidad = 0;
+					String uni = JOptionPane.showInputDialog(contentPane, "Introduce la unidad", "Eliminar tema", JOptionPane.QUESTION_MESSAGE);
+					if(uni != null){
+						unidad = Integer.valueOf(uni);
+						if(BaseDeDatos.existeTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, unidad))
+						{
+							BaseDeDatos.eliminarTemario(institutoSeleccionado, grupoSeleccionado, moduloSeleccionado, unidad);
+							while(modelo.getRowCount() > 0)
+								modelo.removeRow(0);
+							addListado();
+						}
+						else{
+							JOptionPane.showMessageDialog(contentPane, "El tema seleccionado no existe");
+						}
 					}
 				}
+				else
+					JOptionPane.showMessageDialog(contentPane, "No tiene permisos");
 			}
 		});
 		btnBorrar.setBounds(893, 187, 89, 23);
