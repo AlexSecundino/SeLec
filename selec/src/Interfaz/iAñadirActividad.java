@@ -35,6 +35,7 @@ public class iAñadirActividad extends JFrame {
 	private JTextArea txtComentarios;
 
 	public iAñadirActividad(final Sesion sesion) {
+		setTitle("Nueva Actividad");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

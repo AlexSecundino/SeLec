@@ -73,7 +73,7 @@ public class InterfazModulo extends JFrame {
 					if (cod != null){
 						if(cod.matches("[0-9]+")){
 							codigoModulo = Integer.valueOf(cod);
-							descripcion = JOptionPane.showInputDialog(contentPane, "Introduce la descripcion del grupo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
+							descripcion = JOptionPane.showInputDialog(contentPane, "Introduce la descripcion del modulo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);
 					
 							if(descripcion != null){
 								horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del modulo", "Añadir modulo", JOptionPane.QUESTION_MESSAGE);

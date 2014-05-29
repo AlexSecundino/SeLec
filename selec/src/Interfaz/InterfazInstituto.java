@@ -102,10 +102,10 @@ public class InterfazInstituto extends JFrame {
 	protected void añadirInstituto() {
 		if(BaseDeDatos.isAutorizado(Login.user, 1)){
 			String nombre = JOptionPane.showInputDialog(contentPane, "Introduce el nombre del instituto", "Añadir instituto", JOptionPane.QUESTION_MESSAGE);
-		
 			if(nombre != null)
 				if(!nombre.equals("")){
-					Instituto instituto = new Instituto(Instituto.getContador() + 1, nombre);
+					BaseDeDatos.actualizarContador();
+					Instituto instituto = new Instituto(Instituto.getContador(), nombre);
 					BaseDeDatos.insertarInstituto(instituto);
 					Instituto.aumentarContador();
 					comboBox.removeAllItems();

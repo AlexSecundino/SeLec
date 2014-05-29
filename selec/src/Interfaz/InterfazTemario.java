@@ -73,7 +73,7 @@ public class InterfazTemario extends JFrame {
 							if(eva != null){
 								if(eva.matches("[1-3]")){
 									evaluacion = Integer.valueOf(eva);
-									horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del modulo", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
+									horas = JOptionPane.showInputDialog(contentPane, "Introduce el numero de horas del tema", "Añadir temario", JOptionPane.QUESTION_MESSAGE);
 									if(horas != null){
 										if(horas.matches("[0-9]+")){
 											horasPrevistas = Integer.valueOf(horas);

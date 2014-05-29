@@ -26,9 +26,11 @@ public class BaseDeDatos {
 		}
 		catch (SQLException e){
 			JOptionPane.showMessageDialog(null, "No se ha podido establecer la conexion", "Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(-1);
 		}
 		catch(Exception e){
 			JOptionPane.showMessageDialog(null, "No se ha podido establecer la conexion", "Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(-1);
 		}
 	}
 	
@@ -422,7 +424,7 @@ public class BaseDeDatos {
 			
 			if(rs.next())
 			{
-				Instituto.setContador(Integer.parseInt(rs.getString("codigoInstituto")));
+				Instituto.setContador(Integer.parseInt(rs.getString("codigoInstituto")) + 1);
 			}
 			else
 				Instituto.setContador(1);
@@ -1592,8 +1594,10 @@ public class BaseDeDatos {
 	}
 	
 	public static void exit(){
-		try {
+		if(connection != null){
+			try {
 			connection.close();
 		} catch (SQLException e) {}
+		}
 	}
 }
